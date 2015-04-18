@@ -21,23 +21,32 @@ function pvwatts() {
       },
       function (data){
       console.log(data);
-   //   document.getElementById('annual_production').value = data.outputs.ac_annual.toFixed(2);
       document.getElementById('pv_watts_annual_production').innerHTML = "Annual Production: " + data.outputs.ac_annual.toFixed(2) + " kWh/year <br>";
       var radiation = new Array ();
       radiation = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      var old_bill = parseInt(document.getElementById('old_electricity_bill').value);
+      var yearly_saving = old_bill * 12 - data.outputs.ac_annual * 0.12 ;
+      document.getElementById('pv_watts_annual_production').innerHTML += "Annual savings on Electricity Bills: " + yearly_saving.toFixed(2) + " $/year <br/> <br/>";
+
       for (i=0; i<12; i++){ 
+        
+      
+
+      var new_bill = old_bill - data.outputs.ac_monthly[i] * 0.12;
+
+      
+
+
       document.getElementById('radiation_' + radiation[i] + '').innerHTML =  data.outputs.ac_monthly[i].toFixed(0);
       document.getElementById('production_' + radiation[i] + '').innerHTML =  data.outputs.ac_monthly[i].toFixed(0);
+      document.getElementById('new_bill_' + radiation[i] + '').innerHTML =  new_bill.toFixed(2);
       }
-      });
+      }); 
   
   }
 
   function show_incentives() {  
 
-  //  var lat = "37"; 
-   // var lon= "-122";
-  //  var requestDsire = "http://developer.nrel.gov/api/energy-incentives/v1.xml?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&lat=" + lat + "&lon" + lon +  "&incentive_types=ad_incentives,csp_incentives" + "&callback=?"; 
   var requestDsire ="http://developer.nrel.gov/api/energy-incentives/v1.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&lat=37&lon=-122&incentive_types=solar_incentives&callback=?"; 
 
   
@@ -58,9 +67,6 @@ function pvwatts() {
   
   }
 
-
- 
-
 </script>
 
 </head>
@@ -75,6 +81,7 @@ function pvwatts() {
 
                                 <td colspan="2">
                                   Please Insert Your Code Here: <input type="text" name="customer_id_to_location" id="customer_id_to_location" value=""  size="10"> 
+                                  How much you spend on electricity per month on average? <input type="text" name="old_electricity_bill" id="old_electricity_bill" value="800"   size="6"> $
                                  </td>
     </tr>
     <tr>                             
@@ -93,7 +100,7 @@ function pvwatts() {
                                   <div style="padding-left: 20px; height: 150px; width: 100%; border-left: solid 2px #FFFFFF;">
                                   <strong>Results:</strong>
                                   <div id="pv_watts_annual_production" style="height: 20px; width: 100%;"> </div> 
-                                 
+                                 <br /> <br />
                                    
                                               <table width="100%" border="1px;" cellpadding="2px;">
                         <tr>
@@ -141,6 +148,21 @@ function pvwatts() {
                          <td> <span id="production_nov"></span> </td>
                          <td> <span id="production_dec"></span> </td>
                         </tr>
+                        <tr>
+                         <td> Your new monthly electricity bill <br /> (kWh) </td>
+                         <td> <span id="new_bill_jan"></span> </td>
+                         <td> <span id="new_bill_feb"></span> </td>
+                         <td> <span id="new_bill_mar"></span> </td>
+                         <td> <span id="new_bill_apr"></span> </td> 
+                         <td> <span id="new_bill_may"></span> </td>
+                         <td> <span id="new_bill_jun"></span> </td>
+                         <td> <span id="new_bill_jul"></span> </td>
+                         <td> <span id="new_bill_aug"></span> </td>
+                         <td> <span id="new_bill_sep"></span> </td>
+                         <td> <span id="new_bill_oct"></span> </td>
+                         <td> <span id="new_bill_nov"></span> </td>
+                         <td> <span id="new_bill_dec"></span> </td>
+                        </tr>
                      </table>
                                  </div>
 			
@@ -185,12 +207,6 @@ function pvwatts() {
                                   <button style="margin-top: 20px;" type="button" onclick="pvwatts(); show_incentives();"> Enter </button> 
 
                                   <div id='incentives'>
-
-                                   
-
                                   <div id="list_of_incentives"></div>
-
-                                    
-
                                   </div>
 </body>
