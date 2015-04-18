@@ -1,208 +1,291 @@
 <HTML>
 
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/d3.min.js"></script>
+<script type="text/javascript" src="scripts/radialProgress.js"></script>
+<link type="text/css" rel="stylesheet" href="styles/style.css">
 
-        function pvwatts() {
+<script>
 
-            var address = "Oakland" + "+" + "CA";
-            var size = parseFloat(50);
-            var array_type = parseInt(document.getElementById('array_type').value);
-            var module_type = parseInt(document.getElementById('module_type').value);
-            var tilt = parseInt(document.getElementById('tilt').value);
-            var azimuth = parseInt(document.getElementById('azimuth').value);
+function pvwatts() {                       
+   
+  var address = "Oakland" + "+" + "CA"; 
+  var size = parseFloat(50);
+  var array_type = parseInt(document.getElementById('array_type').value);
+  var module_type = parseInt(document.getElementById('module_type').value);
+  var tilt = parseInt(document.getElementById('tilt').value);
+  var azimuth = parseInt(document.getElementById('azimuth').value);
+ 
+  var requestUrl="http://developer.nrel.gov/api/pvwatts/v5.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&address=" + address + "&timeframe=monthly&system_capacity=" + size + "&module_type=" + module_type + "&losses=14&array_type=" + array_type + "&tilt=" + tilt + "&azimuth=" + azimuth + "&callback=?";  
 
-            var requestUrl = "http://developer.nrel.gov/api/pvwatts/v5.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&address=" + address + "&timeframe=monthly&system_capacity=" + size + "&module_type=" + module_type + "&losses=14&array_type=" + array_type + "&tilt=" + tilt + "&azimuth=" + azimuth + "&callback=?";
+  
+  $.getJSON(requestUrl, {
+ 
+      },
+      function (data){
+      console.log(data);
+      document.getElementById('pv_watts_annual_production').innerHTML = "Annual Production: " + data.outputs.ac_annual.toFixed(2) + " kWh/year <br>";
+      var radiation = new Array ();
+      radiation = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+      var old_bill = parseInt(document.getElementById('old_electricity_bill').value);
+      var yearly_saving = old_bill * 12 - data.outputs.ac_annual * 0.12 ;
+      var yearly_saving_pct =  (yearly_saving / (old_bill * 12) )* 100;
+      document.getElementById('pv_watts_annual_production').innerHTML += "Annual savings on Electricity Bills: " + yearly_saving.toFixed(2) + " $/year <br/> <br/>";
+
+      for (i=0; i<12; i++){ 
+        
+      
+
+      var new_bill = old_bill - data.outputs.ac_monthly[i] * 0.12;
+
+      
 
 
-            $.getJSON(requestUrl, {},
-                    function (data) {
-                        console.log(data);
-                        document.getElementById('pv_watts_annual_production').innerHTML = "Annual Production: " + data.outputs.ac_annual.toFixed(2) + " kWh/year <br>";
-                        var radiation = new Array();
-                        radiation = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-                        var old_bill = parseInt(document.getElementById('old_electricity_bill').value);
-                        var yearly_saving = old_bill * 12 - data.outputs.ac_annual * 0.12;
-                        document.getElementById('pv_watts_annual_production').innerHTML += "Annual savings on Electricity Bills: " + yearly_saving.toFixed(2) + " $/year <br/> <br/>";
+      document.getElementById('radiation_' + radiation[i] + '').innerHTML =  data.outputs.ac_monthly[i].toFixed(0);
+      document.getElementById('production_' + radiation[i] + '').innerHTML =  data.outputs.ac_monthly[i].toFixed(0);
+      document.getElementById('new_bill_' + radiation[i] + '').innerHTML =  new_bill.toFixed(2);
+      }
 
-                        for (i = 0; i < 12; i++) {
+    var div1=d3.select(document.getElementById('div1'));
+    start();
+    function onClick1() {
+        deselect();
+        div1.attr("class","selectedRadial");
+     }
+
+    function labelFunction(val,min,max) { }
+
+    function deselect() { div1.attr("class","radial");  }
+
+    function start() {
+
+        var rp1 = radialProgress(document.getElementById('div1'))
+                .label("Your Savings")
+                .onClick(onClick1)
+                .diameter(300)
+                .value(yearly_saving_pct)
+                .render();
+
+    }
+      }); 
+
+  
+  }
+
+  function show_incentives() {  
+
+  var requestDsire ="http://developer.nrel.gov/api/energy-incentives/v1.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&lat=37&lon=-122&incentive_types=solar_incentives&callback=?"; 
+
+  
+  $.getJSON(requestDsire, {
+ 
+      },
+      function (data){
+        document.getElementById('list_of_incentives').innerHTML = "<h2>Hooray! You may qualify for these financial incentive programs.</h2>"
+        var i=0;
+        while(data.outputs.solar_incentives[i]){
+      console.log(data.outputs.solar_incentives[i].program_name + '\n' + data.outputs.solar_incentives[i].notes);
+         document.getElementById('list_of_incentives').innerHTML += "<div><strong> Program Name:</strong> " + data.outputs.solar_incentives[i].program_name + "<br />" + "<strong> Description:</strong> " + data.outputs.solar_incentives[i].notes + " <hr/> </div>";
+        i++;
+         }
+         document.getElementById('list_of_incentives').innerHTML += "Read more <a href='" + "http://programs.dsireusa.org/system/program?zipcode=94601&technology=7" + "' target='_blank'> in the DSIRE website </a>";
+
+      });
+  
+  }
+
+  // drawing the savings indicator
 
 
-                            var new_bill = old_bill - data.outputs.ac_monthly[i] * 0.12;
 
+</script>
 
-                            document.getElementById('radiation_' + radiation[i] + '').innerHTML = data.outputs.ac_monthly[i].toFixed(0);
-                            document.getElementById('production_' + radiation[i] + '').innerHTML = data.outputs.ac_monthly[i].toFixed(0);
-                            document.getElementById('new_bill_' + radiation[i] + '').innerHTML = new_bill.toFixed(2);
-                        }
-                    });
+ <style>
+
+       
+
+        #outer {
+            background:#FFFFFF;
+            border-radius: 5px;
+            color: #000;
+        }
+
+        #div1 {
+            width: 33%;
+            height: 200px;
+            box-sizing: border-box;
+            float: left;
+        }
+
 
         }
 
-        function show_incentives() {
 
-            var requestDsire = "http://developer.nrel.gov/api/energy-incentives/v1.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&lat=37&lon=-122&incentive_types=solar_incentives&callback=?";
+        .selectedRadial {
+            border-radius: 3px;
+            background: #f4f4f4;
+            color: #000;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border: 1px solid rgba(200,200,200,0.85);
+        }
 
-
-            $.getJSON(requestDsire, {},
-                    function (data) {
-                        document.getElementById('list_of_incentives').innerHTML = "<h2>Hooray! You may qualify for these financial incentive programs.</h2>"
-                        var i = 0;
-                        while (data.outputs.solar_incentives[i]) {
-                            console.log(data.outputs.solar_incentives[i].program_name + '\n' + data.outputs.solar_incentives[i].notes);
-                            document.getElementById('list_of_incentives').innerHTML += "<div><strong> Program Name:</strong> " + data.outputs.solar_incentives[i].program_name + "<br />" + "<strong> Description:</strong> " + data.outputs.solar_incentives[i].notes + " <hr/> </div>";
-                            i++;
-                        }
-                        document.getElementById('list_of_incentives').innerHTML += "Read more <a href='" + "http://programs.dsireusa.org/system/program?zipcode=94601&technology=7" + "' target='_blank'> in the DSIRE website </a>";
-
-                    });
+        .radial {
+            border-radius: 3px;
+            background: #FFFFFF;
+            color: #000;
 
         }
 
-    </script>
+
+    </style>
+
 
 </head>
 
 <body>
 <div id="pv_watts">
 
-    <table cellpadding="5px;" border="0px;">
+<table cellpadding="5px;" border="0px;">
 
 
-        <tr>
+    <tr>
 
-            <td colspan="2">
-                Please Insert Your Code Here: <input type="text" name="customer_id_to_location"
-                                                     id="customer_id_to_location" value="" size="10">
-                How much you spend on electricity per month on average? <input type="text" name="old_electricity_bill"
-                                                                               id="old_electricity_bill" value="800"
-                                                                               size="6"> $
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <select name="array_type" id="array_type" hidden>
-                    <option value="0"> Fixed - Open Rack</option>
-                    <option value="1" selected> Fixed - Roof Mounted</option>
-                    <option value="2"> 1-Axis</option>
-                    <option value="3"> 1-Axis Backtracking</option>
-                    <option value="4"> 2-Axis</option>
-
-                </select>
-            </td>
-
-            <td rowspan="4" valign="top" width="70%">
-                <div style="padding-left: 20px; height: 150px; width: 100%; border-left: solid 2px #FFFFFF;">
-                    <strong>Results:</strong>
-
-                    <div id="pv_watts_annual_production" style="height: 20px; width: 100%;"></div>
-                    <br/> <br/>
-
-                    <table width="100%" border="1px;" cellpadding="2px;">
+                                <td colspan="2">
+                                  Please Insert Your Code Here: <input type="text" name="customer_id_to_location" id="customer_id_to_location" value=""  size="10"> 
+                                  How much you spend on electricity per month on average? <input type="text" name="old_electricity_bill" id="old_electricity_bill" value="1000"   size="6"> $
+                                 </td>
+    </tr>
+    <tr>                             
+                                <td colspan="2">
+                                           <select name="array_type" id="array_type" hidden> 
+						                                       <option value="0" > Fixed - Open Rack </option>
+                                                   <option value="1" selected> Fixed - Roof Mounted </option>
+                                                   <option value="2" > 1-Axis </option>
+                                                   <option value="3" > 1-Axis Backtracking </option>
+                                                   <option value="4" > 2-Axis </option>	
+                                                   
+				                                   </select> 
+                                </td>
+                                
+                                <td rowspan="4" valign="top" width="70%" >
+                                  <div style="padding-left: 20px; height: 150px; width: 100%; border-left: solid 2px #FFFFFF;">
+                                  <strong>Results:</strong>
+                                  <div id="pv_watts_annual_production" style="height: 20px; width: 100%;"> </div> 
+                                 <br /> <br />
+                                   
+                                              <table width="100%" border="1px;" cellpadding="2px;">
                         <tr>
-                            <td> Month</td>
-                            <td> Jan</td>
-                            <td> Feb</td>
-                            <td> Mar</td>
-                            <td> Apt</td>
-                            <td> May</td>
-                            <td> Jun</td>
-                            <td> Jul</td>
-                            <td> Aug</td>
-                            <td> Sep</td>
-                            <td> Oct</td>
-                            <td> Nov</td>
-                            <td> Dec</td>
+                         <td> Month </td>
+                         <td> Jan </td>
+                         <td> Feb </td>
+                         <td> Mar </td>
+                         <td> Apt </td> 
+                         <td> May </td>
+                         <td> Jun </td>
+                         <td> Jul </td>
+                         <td> Aug </td>
+                         <td> Sep </td>
+                         <td> Oct </td>
+                         <td> Nov </td>
+                         <td> Dec </td>
+                        </tr>
+                         <tr>
+                         <td> Radiation <br /> (kWh) </td>
+                         <td> <span id="radiation_jan"></span> </td>
+                         <td> <span id="radiation_feb"></span> </td>
+                         <td> <span id="radiation_mar"></span> </td>
+                         <td> <span id="radiation_apr"></span> </td> 
+                         <td> <span id="radiation_may"></span> </td>
+                         <td> <span id="radiation_jun"></span> </td>
+                         <td> <span id="radiation_jul"></span> </td>
+                         <td> <span id="radiation_aug"></span> </td>
+                         <td> <span id="radiation_sep"></span> </td>
+                         <td> <span id="radiation_oct"></span> </td>
+                         <td> <span id="radiation_nov"></span> </td>
+                         <td> <span id="radiation_dec"></span> </td>
+                        </tr>
+                         <tr>
+                         <td> Production <br /> (kWh) </td>
+                         <td> <span id="production_jan"></span> </td>
+                         <td> <span id="production_feb"></span> </td>
+                         <td> <span id="production_mar"></span> </td>
+                         <td> <span id="production_apr"></span> </td> 
+                         <td> <span id="production_may"></span> </td>
+                         <td> <span id="production_jun"></span> </td>
+                         <td> <span id="production_jul"></span> </td>
+                         <td> <span id="production_aug"></span> </td>
+                         <td> <span id="production_sep"></span> </td>
+                         <td> <span id="production_oct"></span> </td>
+                         <td> <span id="production_nov"></span> </td>
+                         <td> <span id="production_dec"></span> </td>
                         </tr>
                         <tr>
-                            <td> Radiation <br/> (kWh)</td>
-                            <td><span id="radiation_jan"></span></td>
-                            <td><span id="radiation_feb"></span></td>
-                            <td><span id="radiation_mar"></span></td>
-                            <td><span id="radiation_apr"></span></td>
-                            <td><span id="radiation_may"></span></td>
-                            <td><span id="radiation_jun"></span></td>
-                            <td><span id="radiation_jul"></span></td>
-                            <td><span id="radiation_aug"></span></td>
-                            <td><span id="radiation_sep"></span></td>
-                            <td><span id="radiation_oct"></span></td>
-                            <td><span id="radiation_nov"></span></td>
-                            <td><span id="radiation_dec"></span></td>
+                         <td> Your new monthly electricity bill <br /> (kWh) </td>
+                         <td> <span id="new_bill_jan"></span> </td>
+                         <td> <span id="new_bill_feb"></span> </td>
+                         <td> <span id="new_bill_mar"></span> </td>
+                         <td> <span id="new_bill_apr"></span> </td> 
+                         <td> <span id="new_bill_may"></span> </td>
+                         <td> <span id="new_bill_jun"></span> </td>
+                         <td> <span id="new_bill_jul"></span> </td>
+                         <td> <span id="new_bill_aug"></span> </td>
+                         <td> <span id="new_bill_sep"></span> </td>
+                         <td> <span id="new_bill_oct"></span> </td>
+                         <td> <span id="new_bill_nov"></span> </td>
+                         <td> <span id="new_bill_dec"></span> </td>
                         </tr>
-                        <tr>
-                            <td> Production <br/> (kWh)</td>
-                            <td><span id="production_jan"></span></td>
-                            <td><span id="production_feb"></span></td>
-                            <td><span id="production_mar"></span></td>
-                            <td><span id="production_apr"></span></td>
-                            <td><span id="production_may"></span></td>
-                            <td><span id="production_jun"></span></td>
-                            <td><span id="production_jul"></span></td>
-                            <td><span id="production_aug"></span></td>
-                            <td><span id="production_sep"></span></td>
-                            <td><span id="production_oct"></span></td>
-                            <td><span id="production_nov"></span></td>
-                            <td><span id="production_dec"></span></td>
-                        </tr>
-                        <tr>
-                            <td> Your new monthly electricity bill <br/> (kWh)</td>
-                            <td><span id="new_bill_jan"></span></td>
-                            <td><span id="new_bill_feb"></span></td>
-                            <td><span id="new_bill_mar"></span></td>
-                            <td><span id="new_bill_apr"></span></td>
-                            <td><span id="new_bill_may"></span></td>
-                            <td><span id="new_bill_jun"></span></td>
-                            <td><span id="new_bill_jul"></span></td>
-                            <td><span id="new_bill_aug"></span></td>
-                            <td><span id="new_bill_sep"></span></td>
-                            <td><span id="new_bill_oct"></span></td>
-                            <td><span id="new_bill_nov"></span></td>
-                            <td><span id="new_bill_dec"></span></td>
-                        </tr>
-                    </table>
-                </div>
+                     </table>
+                                 </div>
+			
+                                  </td>
 
-            </td>
+                                 </tr>
+                                 <tr>  
+                                 <td>
+                                 Roof Tilt <input type="text" name="tilt" id="tilt" value="20"  size="4">  
+                                 </td>
+                                 <td>
+                                  Roof Azimuth <input type="text" name="azimuth" id="azimuth" value="180"  size="4"> 
+                                 </td>
 
-        </tr>
-        <tr>
-            <td>
-                Roof Tilt <input type="text" name="tilt" id="tilt" value="20" size="4">
-            </td>
-            <td>
-                Roof Azimuth <input type="text" name="azimuth" id="azimuth" value="180" size="4">
-            </td>
+                                  
+                                  </tr> 
+                                  <tr>
+                                  <td colspan="2"> 
+                                                   <select name="module_type" id="module_type" hidden> 
+						                                       <option value="0" > Standard </option>
+                                                   <option value="1" selected> Premium </option>
+                                                   <option value="2" > Thin Film </option>
+                                                  
+                                                   
+				                          </select> 
+                                  </td>
+                                  
+                                  </tr>
+                                  <tr>
+                                  <td colspan="2">
+                                  
+                                  <br />
+                                  
 
+  
+ </td> 
+                                  
+                                  </tr>
+                                  </table>
 
-        </tr>
-        <tr>
-            <td colspan="2">
-                <select name="module_type" id="module_type" hidden>
-                    <option value="0"> Standard</option>
-                    <option value="1" selected> Premium</option>
-                    <option value="2"> Thin Film</option>
+                                  </div>
+                                  <button style="margin-top: 20px;" type="button" onclick="pvwatts(); show_incentives();"> Enter </button> 
 
-
-                </select>
-            </td>
-
-        </tr>
-        <tr>
-            <td colspan="2">
-
-                <br/>
-
-
-            </td>
-
-        </tr>
-    </table>
-
+                                  <div id='outer' style="width: 1000px; margin: 0px auto; margin-top:20px; padding:10px">
+    <div id="main" style="width:1000px; height:200px; margin: 0px auto; ">
+        <div id="div1"></div>
+   
+    </div>
 </div>
-<button style="margin-top: 20px;" type="button" onclick="pvwatts(); show_incentives();"> Enter</button>
-
-<div id='incentives'>
-    <div id="list_of_incentives"></div>
-</div>
+                                  <div id='incentives'>
+                                  <div id="list_of_incentives"></div>
+                                  </div>
 </body>
