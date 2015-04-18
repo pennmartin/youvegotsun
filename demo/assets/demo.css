@@ -1,12 +1,22 @@
-html body {
-  background: url(halftone.png);
-}
 html body #center_div {
   background: white;
   border-radius: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   min-height: 400px;
-  width: 500px;
+  width: 550px;
   margin-top: 100px;
   font-size: 16px;
+}
+html body #center_div #score #letter_score {
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 100px;
+  font-weight: bold;
+  color: #3c783c;
+}
+html body #center_div #score p {
+  margin-top: 1ex;
+  text-align: center;
+  font-size: 14px;
 }

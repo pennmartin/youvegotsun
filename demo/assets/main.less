@@ -1,8 +1,28 @@
 @import 'bootstrap-3.3.4/less/bootstrap.less';
 
+html{
+    body{
+        background:url(halftone.png);
+    }
+}
+
+.navbar-brand{
+    padding-left: 0;
+    line-height:40px;
+    height:60px;
+    font-weight: bold;
+    color:rgb(20,20,20);
+    >img{
+        max-height:40px;
+        display: inline;
+    }
+}
+
 
 #main_content{
     min-height: 500px;
-    background:rgb(248, 248, 248);
+    background:white;
     margin-bottom:2ex;
+    box-shadow:0 1px 2px rgba(0,0,0,.2);
+    padding:2ex 2em;
 }
