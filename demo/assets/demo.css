@@ -1,3 +1,6 @@
+.page_section {
+  margin: 2ex 0;
+}
 html body #center_div {
   background: white;
   border-radius: 10px;
@@ -5,9 +8,10 @@ html body #center_div {
   min-height: 400px;
   width: 550px;
   margin-top: 100px;
+  padding: 1.5ex 1.5em;
   font-size: 16px;
 }
-html body #center_div #score #letter_score {
+html body #center_div #score #score_left #letter_score {
   border: 1px solid #e6e6e6;
   border-radius: 4px;
   text-align: center;
@@ -15,8 +19,10 @@ html body #center_div #score #letter_score {
   font-weight: bold;
   color: #3c783c;
 }
-html body #center_div #score p {
+html body #center_div #score #score_left p {
   margin-top: 1ex;
+  margin-bottom: 0;
   text-align: center;
   font-size: 14px;
+  background: #f0f0f0;
 }

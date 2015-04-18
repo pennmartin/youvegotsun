@@ -7,38 +7,77 @@
     <link rel="stylesheet" href="assets/main.css"/>
     <link rel="stylesheet" href="assets/demo.css"/>
 
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script src="assets/jquery.min.js"></script>
     <script src="assets/main.js"></script>
     <script src="assets/demo.js"></script>
 </head>
 <body>
     <div id="center_div" class="container">
-        <h1>You've Got Sun</h1>
-
-        <div id="status">
+        <h1> Welcome to You've Got Sun</h1>
+        <div class="clearfix">
+            <div class="form-group">
+                <br/>
+                <label for="id_mwh">Input the number on your device here!</label>
+                <input class="form-control" type="text" id="id_mwh" />
+            </div>
+            <div class="form-group">
+                <a id="number_submit" class="btn btn-primary" href="#">Let's Go!</a>
+            </div>
+        </div>
+        <div class="page_section" id="status" style="display:none;">
             Processing...
         </div>
-        <div id="score" class="row" style="display:none;">
-            <div class="col-xs-4">
-                <div id="letter_score">
-                    A
-                    <p>You've Got Sun Score</p>
+        <div id="score" class="clearfix" style="display:none;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Your Score</h2>
+                </div>
+                <div id="score_left" class="col-xs-4">
+                    <div id="letter_score">
+                        A
+                        <p>You've Got Sun Score</p>
+                    </div>
+                </div>
+                <div id="score_right" class="col-xs-8">
+                    <h3>
+                        You've produced <span id="watt_hours">2.5</span> Watt Hours.
+                    </h3>
+                    <p>
+                        In the same sun...
+                    </p>
+                    <ul>
+                        <li>1 solar panel would produce X Wh</li>
+                        <li>4 solar panels would produce Y Wh</li>
+                        <li>12 solar panels would produce Z Wh</li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-xs-8">
-                <h3>
-                    You've produced 1.5 Watt Hours.
-                </h3>
-                <p>
-                    In the same sun...
-                </p>
-                <ul>
-                    <li>1 solar panel would produce X Wh</li>
-                    <li>4 solar panels would produce Y Wh</li>
-                    <li>12 solar panels would produce Z Wh</li>
-                </ul>
+        </div>
+
+        <div id="whats_next" class="clearfix" style="display:none;">
+            <h3>What's Next?</h3>
+            <p><a id="evaluate" href="#">Evaluate your energy savings ></a></p>
+            <div id="loading_location" style="display: none;">
+                Finding you...
             </div>
         </div>
+
+        <div id="location" style="display: none;">
+            <div class="form-group">
+                <label for="id_location">Your address</label>
+                <input id="id_location" type="text" class="form-control" placeholder="loading..."/>
+                <p class="help-block">If we got it wrong, please change it! :)</p>
+            </div>
+            <a id="check_now" class="btn btn-primary" href="#">
+                Check now!
+            </a>
+        </div>
+
+        <div id="savings" class="clearfix" style="display:none;">
+            <h3>Your Savings</h3>
+        </div>
+
     </div>
 </body>
 </html>
