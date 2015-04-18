@@ -227,23 +227,20 @@ function pvwatts() {
 <div id="pv_watts">
 
 
-                                  Please Insert Your Code Here: <input type="text" name="customer_id_to_location" id="customer_id_to_location" value=""  size="10"> 
-                                  How much you spend on electricity per month on average? <input type="text" name="old_electricity_bill" id="old_electricity_bill" value="1000"   size="6"> $
-                                 </td>
-    </tr>
-    <tr>                             
-                                <td colspan="2">
-                                           <select name="array_type" id="array_type" hidden> 
-                                                               <option value="0" > Fixed - Open Rack </option>
+                                  Please Insert Your Code Here: <input type="text" name="customer_id_to_location" id="customer_id_to_location" value=""  size="10"> <br />
+                                  How much you spend on electricity per month on average? <input type="text" name="old_electricity_bill" id="old_electricity_bill" value="1000"   size="6"> $ <br />
+                                
+                                  <select name="array_type" id="array_type" hidden> 
+                                                   <option value="0" > Fixed - Open Rack </option>
                                                    <option value="1" selected> Fixed - Roof Mounted </option>
                                                    <option value="2" > 1-Axis </option>
                                                    <option value="3" > 1-Axis Backtracking </option>
                                                    <option value="4" > 2-Axis </option> 
-                                                   
-                                                   </select> 
-                                </td>
+                                  </select> 
+                                  <br />
+                               
                                 
-                                <td rowspan="4" valign="top" width="70%" >
+                                
                                   <div style="padding-left: 20px; height: 150px; width: 100%; border-left: solid 2px #FFFFFF;">
                                   <strong>Results:</strong>
                                   <div id="pv_watts_annual_production" style="height: 20px; width: 100%;"> </div> 
@@ -313,42 +310,20 @@ function pvwatts() {
                      </table>
                                  </div>
             
-                                  </td>
-
-                                 </tr>
-                                 <tr>  
-                                 <td>
+                                  <br />
                                  Roof Tilt <input type="text" name="tilt" id="tilt" value="20"  size="4">  
-                                 </td>
-                                 <td>
+                                  <br />
                                   Roof Azimuth <input type="text" name="azimuth" id="azimuth" value="180"  size="4"> 
-                                 </td>
+                                 <br />
 
                                   
-                                  </tr> 
-                                  <tr>
-                                  <td colspan="2"> 
+                                  
                                                    <select name="module_type" id="module_type" hidden> 
-                                                               <option value="0" > Standard </option>
+                                                   <option value="0" > Standard </option>
                                                    <option value="1" selected> Premium </option>
                                                    <option value="2" > Thin Film </option>
-                                                  
-                                                   
-                                          </select> 
-                                  </td>
-                                  
-                                  </tr>
-                                  <tr>
-                                  <td colspan="2">
-                                  
-                                  <br />
-                                  
-
-  
- </td> 
-                                  
-                                  </tr>
-                                  </table>
+                                                </select> 
+                                 
 
                                   </div>
                                   <button style="margin-top: 20px;" type="button" onclick="pvwatts(); show_incentives();"> Enter </button> 
