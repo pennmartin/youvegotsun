@@ -92,6 +92,7 @@ $(function () {
     $('#check_now').on('click', function(){
         $(this).parent().hide();
         $('#savings').show();
+        return false;
     });
 
 });

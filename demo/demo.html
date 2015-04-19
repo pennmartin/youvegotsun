@@ -13,339 +13,211 @@
     <script src="assets/demo.js"></script>
 </head>
 <body>
-    <div id="center_div" class="container">
-        <h1> Welcome to You've Got Sun</h1>
-        <div class="clearfix">
-            <div class="form-group">
-                <br/>
-                <label for="id_mwh">Input the number on your device here!</label>
-                <input class="form-control" type="text" id="id_mwh" />
-            </div>
-            <div class="form-group">
-                <a id="number_submit" class="btn btn-primary" href="#">Let's Go!</a>
-            </div>
+<div id="center_div" class="container">
+    <p><img src="assets/logos/logo%20png.png" style="max-height:70px;" alt=""/></p>
+
+    <h1> Welcome to You've Got Sun</h1>
+
+    <div class="clearfix">
+        <div class="form-group">
+            <br/>
+            <label for="id_mwh">Input the number on your device here!</label>
+            <input class="form-control" type="text" id="id_mwh"/>
         </div>
-        <div class="page_section" id="status" style="display:none;">
-            Processing...
+        <div class="form-group">
+            <a id="number_submit" class="btn btn-primary" href="#">Let's Go!</a>
         </div>
-        <div id="score" class="clearfix" style="display:none;">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>Your Score</h2>
+    </div>
+    <div class="page_section" id="status" style="display:none;height:130px;">
+        Processing...
+    </div>
+    <div id="score" class="clearfix" style="display:none;">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Your Score</h2>
+            </div>
+            <div id="score_left" class="col-xs-4">
+                <div id="letter_score">
+                    A
+                    <p>You've Got Sun Score</p>
                 </div>
-                <div id="score_left" class="col-xs-4">
-                    <div id="letter_score">
-                        A
-                        <p>You've Got Sun Score</p>
+            </div>
+            <div id="score_right" class="col-xs-8">
+                <h3>
+                    You've produced <span id="watt_hours">2.5</span> Watt Hours.
+                </h3>
+
+                <p>
+                    In the same sun...
+                </p>
+                <ul>
+                    <li>1 solar panel would produce X Wh</li>
+                    <li>4 solar panels would produce Y Wh</li>
+                    <li>12 solar panels would produce Z Wh</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="whats_next" class="clearfix" style="display:none;margin-top:2ex;">
+        <h3>What's Next?</h3>
+
+        <p><a id="evaluate" href="#">Evaluate your energy savings ></a></p>
+
+        <div id="loading_location" style="display: none;">
+            Finding you...
+        </div>
+    </div>
+
+    <div id="location" style="display: none;">
+        <div class="form-group">
+            <label for="id_location">Your address</label>
+            <input id="id_location" type="text" class="form-control" placeholder="loading..."/>
+
+            <p class="help-block">If we got it wrong, please change it! :)</p>
+        </div>
+        <a id="check_now" class="btn btn-primary" href="#">
+            Check now!
+        </a>
+    </div>
+
+    <div id="savings" class="clearfix" style="display:none;margin-top:4ex;">
+
+        <h3>Your Energy Profile</h3>
+        <div id="pv_watts">
+
+            <div id="pv_watts_annual_production">
+                Annual Production: 77804.73
+                    kWh/year <br>Annual savings on Electricity Bills: 2663.43 $/year <br> <br>
+            </div>
+
+                <table class="table table-condensed" width="100%">
+                    <tbody>
+                    <tr>
+                        <td> Month</td>
+                        <td> Jan</td>
+                        <td> Feb</td>
+                        <td> Mar</td>
+                        <td> Apt</td>
+                        <td> May</td>
+                        <td> Jun</td>
+                        <td> Jul</td>
+                        <td> Aug</td>
+                        <td> Sep</td>
+                        <td> Oct</td>
+                        <td> Nov</td>
+                        <td> Dec</td>
+                    </tr>
+                    <tr>
+                        <td> Radiation <br> (kWh)</td>
+                        <td><span id="radiation_jan">3873</span></td>
+                        <td><span id="radiation_feb">4623</span></td>
+                        <td><span id="radiation_mar">6188</span></td>
+                        <td><span id="radiation_apr">7413</span></td>
+                        <td><span id="radiation_may">8432</span></td>
+                        <td><span id="radiation_jun">8459</span></td>
+                        <td><span id="radiation_jul">9292</span></td>
+                        <td><span id="radiation_aug">8435</span></td>
+                        <td><span id="radiation_sep">7521</span></td>
+                        <td><span id="radiation_oct">5987</span></td>
+                        <td><span id="radiation_nov">4026</span></td>
+                        <td><span id="radiation_dec">3556</span></td>
+                    </tr>
+                    <tr>
+                        <td> Production <br> (kWh)</td>
+                        <td><span id="production_jan">3873</span></td>
+                        <td><span id="production_feb">4623</span></td>
+                        <td><span id="production_mar">6188</span></td>
+                        <td><span id="production_apr">7413</span></td>
+                        <td><span id="production_may">8432</span></td>
+                        <td><span id="production_jun">8459</span></td>
+                        <td><span id="production_jul">9292</span></td>
+                        <td><span id="production_aug">8435</span></td>
+                        <td><span id="production_sep">7521</span></td>
+                        <td><span id="production_oct">5987</span></td>
+                        <td><span id="production_nov">4026</span></td>
+                        <td><span id="production_dec">3556</span></td>
+                    </tr>
+                    <tr>
+                        <td> Your new monthly electricity bill <br> (kWh)</td>
+                        <td><span id="new_bill_jan">535.27</span></td>
+                        <td><span id="new_bill_feb">445.27</span></td>
+                        <td><span id="new_bill_mar">257.39</span></td>
+                        <td><span id="new_bill_apr">110.41</span></td>
+                        <td><span id="new_bill_may">-11.85</span></td>
+                        <td><span id="new_bill_jun">-15.08</span></td>
+                        <td><span id="new_bill_jul">-115.07</span></td>
+                        <td><span id="new_bill_aug">-12.17</span></td>
+                        <td><span id="new_bill_sep">97.48</span></td>
+                        <td><span id="new_bill_oct">281.58</span></td>
+                        <td><span id="new_bill_nov">516.88</span></td>
+                        <td><span id="new_bill_dec">573.32</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="incentives" style="margin-top:4ex;">
+                <div id="list_of_incentives">
+                    <h2>Hooray! You may qualify for these financial incentive programs.</h2>
+
+                    <div><strong> Program Name:</strong> CEC - New Solar Homes Partnership<br><strong> Description:</strong>
+                        The "base" incentive, which is adjusted based on expected performance, is shown here -- applies to
+                        custom homes, small developments, housing developments where solar is offered as an option, common
+                        areas of housing developments, and housing developments where solar will be installed on less than
+                        50% of the homes. Higher incentives (beginning at $2.25/W) are offered where solar is a standard
+                        feature in a development. Higher incentives are also available for solar on affordable housing,
+                        beginning at $3.15/W. Incentives will decline as capacity targets are met.
+                        <hr>
                     </div>
-                </div>
-                <div id="score_right" class="col-xs-8">
-                    <h3>
-                        You've produced <span id="watt_hours">2.5</span> Watt Hours.
-                    </h3>
-                    <p>
-                        In the same sun...
-                    </p>
-                    <ul>
-                        <li>1 solar panel would produce X Wh</li>
-                        <li>4 solar panels would produce Y Wh</li>
-                        <li>12 solar panels would produce Z Wh</li>
-                    </ul>
-                </div>
+                    <div><strong> Program Name:</strong> California Solar Initiative - PV Incentives<br><strong>
+                        Description:</strong> Incentives vary by utility and sector and decline over time when certain
+                        capacity targets are met. PGE incentives as of 7/28/10 shown here. See http://www.csi-trigger.com/
+                        for other utilities. Systems up to 5 MW are eligible, but incentives are paid on first 1 MW only.
+                        Customers w/ systems up to 30 kW may choose either the expected performance buydown or the PBI.
+                        Systems 30 kW or larger are eligible for the PBI only. Electric-displacing solar space
+                        heating/cooling and CSP are also eligible, but no data has been entered given the complicated nature
+                        of the calculation.
+                        <hr>
+                    </div>
+                    <div><strong> Program Name:</strong> Residential Renewable Energy Tax Credit<br><strong>
+                        Description:</strong> undefined
+                        <hr>
+                    </div>
+                    <div><strong> Program Name:</strong> California Solar Initiative - Multi-Family Affordable Solar Housing
+                        (MASH) Program<br><strong> Description:</strong> This rebate is for multi-family residential housing
+                        and low-income housing. The Track 1A incentive for offsetting common area load is $1.90/watt and the
+                        Track 1B rebate for offsetting tenant load is $2.80/watt.
+                        <hr>
+                    </div>
+                    <div><strong> Program Name:</strong> California Solar Initiative - Single-Family Affordable Solar
+                        Housing (SASH) Program<br><strong> Description:</strong> This program is for single-family
+                        affordable housing. In general, the household's total income must be 80% of the area median income
+                        (AMI) or less. Incentive amounts vary, depending on federal income tax liability and whether or not
+                        the household is CARE-eligible. Incentive amounts range from $4.75/watt to $7/watt. $4.75/watt is
+                        entered here. Fully subsidized systems are also available. Fully subsidized systems will be limited
+                        to systems 1.0 ? 1.2 kW, with a max incentive of $10,000. There is no stated maximum for partially
+                        subsidized systems.
+                        <hr>
+                    </div>
+                    <div><strong> Program Name:</strong> Business Energy Investment Tax Credit (ITC)<br><strong>
+                        Description:</strong> The American Recovery and Reinvestment Act of 2009 allows taxpayers eligible
+                        for the federal renewable electricity production tax credit (PTC) to take the federal business
+                        energy investment tax credit (ITC) instead of taking the PTC for new installations.
+                        <hr>
+                    </div>
+                    Read more <a href="http://programs.dsireusa.org/system/program?zipcode=94601&amp;technology=7"
+                                 target="_blank"> in the DSIRE website </a></div>
             </div>
-        </div>
 
-        <div id="whats_next" class="clearfix" style="display:none;">
-            <h3>What's Next?</h3>
-            <p><a id="evaluate" href="#">Evaluate your energy savings ></a></p>
-            <div id="loading_location" style="display: none;">
-                Finding you...
+        </div>
+        <div class="clearfix" style="margin-top:4ex;">
+            <div class="pull-right text-right">
+                Interested in installing Solar? <br/>
+                <a class="btn btn-default" href="#">Contact Us!</a>
             </div>
-        </div>
-
-        <div id="location" style="display: none;">
-            <div class="form-group">
-                <label for="id_location">Your address</label>
-                <input id="id_location" type="text" class="form-control" placeholder="loading..."/>
-                <p class="help-block">If we got it wrong, please change it! :)</p>
-            </div>
-            <a id="check_now" class="btn btn-primary" href="#">
-                Check now!
-            </a>
-        </div>
-
-        <div id="savings" class="clearfix" style="display:none;">
-            <h3>
-
-            <HTML>
-
-<head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/javascript" src="scripts/d3.min.js"></script>
-<script type="text/javascript" src="scripts/radialProgress.js"></script>
-<link type="text/css" rel="stylesheet" href="styles/style.css">
-
-<script>
-
-function pvwatts() {                       
-   
-  var address = "Oakland" + "+" + "CA"; 
-  var size = parseFloat(50);
-  var array_type = parseInt(document.getElementById('array_type').value);
-  var module_type = parseInt(document.getElementById('module_type').value);
-  var tilt = parseInt(document.getElementById('tilt').value);
-  var azimuth = parseInt(document.getElementById('azimuth').value);
- 
-  var requestUrl="http://developer.nrel.gov/api/pvwatts/v5.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&address=" + address + "&timeframe=monthly&system_capacity=" + size + "&module_type=" + module_type + "&losses=14&array_type=" + array_type + "&tilt=" + tilt + "&azimuth=" + azimuth + "&callback=?";  
-
-  
-  $.getJSON(requestUrl, {
- 
-      },
-      function (data){
-      console.log(data);
-      document.getElementById('pv_watts_annual_production').innerHTML = "Annual Production: " + data.outputs.ac_annual.toFixed(2) + " kWh/year <br>";
-      var radiation = new Array ();
-      radiation = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-      var old_bill = parseInt(document.getElementById('old_electricity_bill').value);
-      var yearly_saving = old_bill * 12 - data.outputs.ac_annual * 0.12 ;
-      var yearly_saving_pct =  (yearly_saving / (old_bill * 12) )* 100;
-      document.getElementById('pv_watts_annual_production').innerHTML += "Annual savings on Electricity Bills: " + yearly_saving.toFixed(2) + " $/year <br/> <br/>";
-
-      for (i=0; i<12; i++){ 
-        
-      
-
-      var new_bill = old_bill - data.outputs.ac_monthly[i] * 0.12;
-
-      
-
-
-      document.getElementById('radiation_' + radiation[i] + '').innerHTML =  data.outputs.ac_monthly[i].toFixed(0);
-      document.getElementById('production_' + radiation[i] + '').innerHTML =  data.outputs.ac_monthly[i].toFixed(0);
-      document.getElementById('new_bill_' + radiation[i] + '').innerHTML =  new_bill.toFixed(2);
-      }
-
-    var div1=d3.select(document.getElementById('div1'));
-    start();
-    function onClick1() {
-        deselect();
-        div1.attr("class","selectedRadial");
-     }
-
-    function labelFunction(val,min,max) { }
-
-    function deselect() { div1.attr("class","radial");  }
-
-    function start() {
-
-        var rp1 = radialProgress(document.getElementById('div1'))
-                .label("Your Savings")
-                .onClick(onClick1)
-                .diameter(300)
-                .value(yearly_saving_pct)
-                .render();
-
-    }
-      }); 
-
-  
-  }
-
-  function show_incentives() {  
-
-  var requestDsire ="http://developer.nrel.gov/api/energy-incentives/v1.json?api_key=j3q56adLB5f8m98CwVYUkC95NC8h1GMK6mcSt9OP&lat=37&lon=-122&incentive_types=solar_incentives&callback=?"; 
-
-  
-  $.getJSON(requestDsire, {
- 
-      },
-      function (data){
-        document.getElementById('list_of_incentives').innerHTML = "<h2>Hooray! You may qualify for these financial incentive programs.</h2>"
-        var i=0;
-        while(data.outputs.solar_incentives[i]){
-      console.log(data.outputs.solar_incentives[i].program_name + '\n' + data.outputs.solar_incentives[i].notes);
-         document.getElementById('list_of_incentives').innerHTML += "<div><strong> Program Name:</strong> " + data.outputs.solar_incentives[i].program_name + "<br />" + "<strong> Description:</strong> " + data.outputs.solar_incentives[i].notes + " <hr/> </div>";
-        i++;
-         }
-         document.getElementById('list_of_incentives').innerHTML += "Read more <a href='" + "http://programs.dsireusa.org/system/program?zipcode=94601&technology=7" + "' target='_blank'> in the DSIRE website </a>";
-
-      });
-  
-  }
-
-  // drawing the savings indicator
-
-
-
-</script>
-
- <style>
-
-       
-
-        #outer {
-            background:#FFFFFF;
-            border-radius: 5px;
-            color: #000;
-        }
-
-        #div1 {
-            width: 33%;
-            height: 200px;
-            box-sizing: border-box;
-            float: left;
-        }
-
-
-        }
-
-
-        .selectedRadial {
-            border-radius: 3px;
-            background: #f4f4f4;
-            color: #000;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            border: 1px solid rgba(200,200,200,0.85);
-        }
-
-        .radial {
-            border-radius: 3px;
-            background: #FFFFFF;
-            color: #000;
-
-        }
-
-
-    </style>
-
-
-</head>
-
-<body>
-<div id="pv_watts">
-
-
-                                  Please Insert Your Code Here: <input type="text" name="customer_id_to_location" id="customer_id_to_location" value=""  size="10"> <br />
-                                  How much you spend on electricity per month on average? <input type="text" name="old_electricity_bill" id="old_electricity_bill" value="1000"   size="6"> $ <br />
-                                
-                                  <select name="array_type" id="array_type" hidden> 
-                                                   <option value="0" > Fixed - Open Rack </option>
-                                                   <option value="1" selected> Fixed - Roof Mounted </option>
-                                                   <option value="2" > 1-Axis </option>
-                                                   <option value="3" > 1-Axis Backtracking </option>
-                                                   <option value="4" > 2-Axis </option> 
-                                  </select> 
-                                  <br />
-                               
-                                
-                                
-                                  <div style="padding-left: 20px; height: 150px; width: 100%; border-left: solid 2px #FFFFFF;">
-                                  <strong>Results:</strong>
-                                  <div id="pv_watts_annual_production" style="height: 20px; width: 100%;"> </div> 
-                                 <br /> <br />
-                                   
-                                              <table width="100%" border="1px;" cellpadding="2px;">
-                        <tr>
-                         <td> Month </td>
-                         <td> Jan </td>
-                         <td> Feb </td>
-                         <td> Mar </td>
-                         <td> Apt </td> 
-                         <td> May </td>
-                         <td> Jun </td>
-                         <td> Jul </td>
-                         <td> Aug </td>
-                         <td> Sep </td>
-                         <td> Oct </td>
-                         <td> Nov </td>
-                         <td> Dec </td>
-                        </tr>
-                         <tr>
-                         <td> Radiation <br /> (kWh) </td>
-                         <td> <span id="radiation_jan"></span> </td>
-                         <td> <span id="radiation_feb"></span> </td>
-                         <td> <span id="radiation_mar"></span> </td>
-                         <td> <span id="radiation_apr"></span> </td> 
-                         <td> <span id="radiation_may"></span> </td>
-                         <td> <span id="radiation_jun"></span> </td>
-                         <td> <span id="radiation_jul"></span> </td>
-                         <td> <span id="radiation_aug"></span> </td>
-                         <td> <span id="radiation_sep"></span> </td>
-                         <td> <span id="radiation_oct"></span> </td>
-                         <td> <span id="radiation_nov"></span> </td>
-                         <td> <span id="radiation_dec"></span> </td>
-                        </tr>
-                         <tr>
-                         <td> Production <br /> (kWh) </td>
-                         <td> <span id="production_jan"></span> </td>
-                         <td> <span id="production_feb"></span> </td>
-                         <td> <span id="production_mar"></span> </td>
-                         <td> <span id="production_apr"></span> </td> 
-                         <td> <span id="production_may"></span> </td>
-                         <td> <span id="production_jun"></span> </td>
-                         <td> <span id="production_jul"></span> </td>
-                         <td> <span id="production_aug"></span> </td>
-                         <td> <span id="production_sep"></span> </td>
-                         <td> <span id="production_oct"></span> </td>
-                         <td> <span id="production_nov"></span> </td>
-                         <td> <span id="production_dec"></span> </td>
-                        </tr>
-                        <tr>
-                         <td> Your new monthly electricity bill <br /> (kWh) </td>
-                         <td> <span id="new_bill_jan"></span> </td>
-                         <td> <span id="new_bill_feb"></span> </td>
-                         <td> <span id="new_bill_mar"></span> </td>
-                         <td> <span id="new_bill_apr"></span> </td> 
-                         <td> <span id="new_bill_may"></span> </td>
-                         <td> <span id="new_bill_jun"></span> </td>
-                         <td> <span id="new_bill_jul"></span> </td>
-                         <td> <span id="new_bill_aug"></span> </td>
-                         <td> <span id="new_bill_sep"></span> </td>
-                         <td> <span id="new_bill_oct"></span> </td>
-                         <td> <span id="new_bill_nov"></span> </td>
-                         <td> <span id="new_bill_dec"></span> </td>
-                        </tr>
-                     </table>
-                                 </div>
-            
-                                  <br />
-                                 Roof Tilt <input type="text" name="tilt" id="tilt" value="20"  size="4">  
-                                  <br />
-                                  Roof Azimuth <input type="text" name="azimuth" id="azimuth" value="180"  size="4"> 
-                                 <br />
-
-                                  
-                                  
-                                                   <select name="module_type" id="module_type" hidden> 
-                                                   <option value="0" > Standard </option>
-                                                   <option value="1" selected> Premium </option>
-                                                   <option value="2" > Thin Film </option>
-                                                </select> 
-                                 
-
-                                  </div>
-                                  <button style="margin-top: 20px;" type="button" onclick="pvwatts(); show_incentives();"> Enter </button> 
-
-                                  <div id='outer' style="width: 1000px; margin: 0px auto; margin-top:20px; padding:10px">
-    <div id="main" style="width:1000px; height:200px; margin: 0px auto; ">
-        <div id="div1"></div>
-   
-    </div>
-</div>
-                                  <div id='incentives'>
-                                  <div id="list_of_incentives"></div>
-                                  </div>
-</body>
-                
-
-
-
-
-            </h3>
         </div>
 
     </div>
+
 </body>
 </html>
